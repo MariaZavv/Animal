@@ -1,6 +1,6 @@
-package example.zoo;
+package example.zoo.animals;
 
-public class Animal {
+public abstract class Animal {
     private String name;
     private int age;
     private float weight;
@@ -56,7 +56,28 @@ public class Animal {
 
     @Override
     public String toString() {
-        return "Привет! меня зовут " + name + ", мне " + age + " лет(/год/года), я вешу - " + weight + " кг, мой цвет " + color;
+        return "Привет! Меня зовут " + name + ", мне " + age + " " + ageLastNumber() + ", я вешу " + weight + " кг, мой цвет " + color;
     }
 
+    public String ageLastNumber() {
+        int ageLastNumber = age % 10;
+        String ageName = "";
+        if (ageLastNumber == 1)
+            ageName = "год";
+        else if (ageLastNumber == 0 || ageLastNumber >= 5 && ageLastNumber <= 9)
+            ageName = "лет";
+        else if (ageLastNumber >= 2 && ageLastNumber <= 4)
+            ageName = "года";
+
+        boolean isExclusion = (age % 100 >= 11) && (age % 100 <= 14);
+        if (isExclusion) {
+            ageName = "лет";
+        }
+        return ageName;
+    }
 }
+
+
+
+
+

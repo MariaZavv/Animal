@@ -1,6 +1,6 @@
-package example.zoo.animals;
+package example.zoo.animals.pets;
 
-import example.zoo.Animal;
+import example.zoo.animals.Animal;
 
 public class Cat extends Animal {
 

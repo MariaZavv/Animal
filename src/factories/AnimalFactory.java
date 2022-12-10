@@ -1,9 +1,9 @@
 package factories;
 
-import example.zoo.Animal;
-import example.zoo.animals.Cat;
-import example.zoo.animals.Dog;
-import example.zoo.birds.Duck;
+import example.zoo.animals.Animal;
+import example.zoo.animals.birds.Duck;
+import example.zoo.animals.pets.Cat;
+import example.zoo.animals.pets.Dog;
 import example.zoo.data.AnimalTypeData;
 
 public class AnimalFactory {
@@ -22,4 +22,10 @@ public class AnimalFactory {
                 throw new IllegalStateException(String.format("Animal with type=%s not supported", type));
         }
     }
+
+
+
+
+
+
 }

@@ -1,5 +1,6 @@
 package example.zoo;
 
+import example.zoo.animals.Animal;
 import example.zoo.data.AnimalTypeData;
 import example.zoo.data.CommandsData;
 import factories.AnimalFactory;
@@ -9,15 +10,14 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    private static final Scanner scanner = new Scanner(System.in);
+    private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
         List<Animal> animals = new ArrayList<>();
+
         boolean flag = true;
         while (flag) {
-            System.out.println("Введите одно из трех значений (add, list, exit)");
-            String commandName = scanner.next().toUpperCase().replaceAll(" ", "");
-            CommandsData command = CommandsData.valueOf(commandName);
+            CommandsData command = getAndCheckCommand();
             switch (command) {
                 case ADD: {
                     Animal animal = createAnimal();
@@ -37,26 +37,41 @@ public class Main {
     }
 
     private static Animal createAnimal() {
-        System.out.println("Выберите тип животного: CAT, DOG, DUCK");
-        AnimalTypeData animalType = AnimalTypeData.valueOf(scanner.next().toUpperCase());
+        AnimalTypeData animalType = getAndCheckAnimal();
         Animal animal = AnimalFactory.create(animalType);
-        System.out.println("Введите имя животного: ");
+        System.out.println("Введите имя животного:");
         animal.setName(scanner.next());
         animal.setWeight(getAndCheckWeight());
         animal.setAge(getAndCheckAge());
-        System.out.println("Введите цвет животного: ");
+        System.out.println("Введите цвет животного:");
         animal.setColor(scanner.next());
         return animal;
     }
 
+    private static AnimalTypeData getAndCheckAnimal() {
+        while (true) {
+            try {
+                System.out.println("Выберите тип животного: CAT, DOG, DUCK");
+                return AnimalTypeData.valueOf(scanner.next().toUpperCase());
+            } catch (IllegalArgumentException exception) {
+                System.out.println("Введены неверные данные.");
+            }
+        }
+    }
 
     private static int getAndCheckAge() {
         while (true) {
             try {
                 System.out.println("Введите возраст животного: ");
-                return Integer.parseInt(scanner.next());
+                Integer age = Integer.parseInt(scanner.next());
+                if (age <= 0) {
+                    System.out.println("Возраст должен быть положительным числом");
+                    throw new IllegalArgumentException();
+                }
+                return age;
             } catch (NumberFormatException exception) {
                 System.out.println("Введены неверные данные.");
+            } catch (IllegalArgumentException exception) {
             }
         }
     }
@@ -65,13 +80,34 @@ public class Main {
         while (true) {
             try {
                 System.out.println("Введите вес животного: ");
-                return Float.parseFloat(scanner.next());
+                float weight = Float.parseFloat(scanner.next());
+                if (weight <= 0) {
+                    System.out.println("Вес должен быть положительным числом");
+                    throw new IllegalArgumentException();
+                }
+                return weight;
             } catch (NumberFormatException exception) {
                 System.out.println("Введены неверные данные.");
+            } catch (IllegalArgumentException exception) {
             }
         }
     }
 
-
+    private static CommandsData getAndCheckCommand() {
+        while (true) {
+            try {
+                System.out.println("Введите одно из трех значений (add, list, exit)");
+                String commandName = scanner.next().toUpperCase().replaceAll(" ", "");
+                return CommandsData.valueOf(commandName);
+            } catch (IllegalArgumentException exception) {
+                System.out.println("Введены неверные данные");
+            }
+        }
+    }
 }
+
+
+
+
+
 

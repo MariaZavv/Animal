@@ -1,4 +1,4 @@
-package example.zoo.birds;
+package example.zoo.animals.birds;
 
 public interface Flying {
     void fly();
